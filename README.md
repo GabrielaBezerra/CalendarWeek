@@ -18,20 +18,6 @@ All the calendar flow implemented for you.
 
 # Usage
 
-You can inject and customize views, spacing and models for:    
-- View for the calendar's header
-- View for the calendar's day
-- View for the background of the week       
-- View for the content related to a day (and its injected model)
-- View for the empty state, when there is not model related to a day
-
-> Note: you need to implement your own views for:       
-> - Header
-> - Day inside the week
-> - Background of the week
-> - Content of the Day
-> - Empty state when there is no content for the Day
-
 Create a model that conform to CalendarModel, and have a property `let day: Day`
 
 ```swift
@@ -100,3 +86,10 @@ CalendarView(
     }
 )
 ```
+
+> Note: you need to implement your own views for:       
+> - Header
+> - Day inside the week
+> - Background of the week
+> - Content of the Day
+> - Empty state when there is no content for the Day
