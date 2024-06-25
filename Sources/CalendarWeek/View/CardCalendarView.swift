@@ -13,6 +13,7 @@ struct CardCalendarView<Model: CalendarModel, CardContent: View, EmptyCardConten
 
     @Environment(CalendarViewModel<Model>.self) var viewModel: CalendarViewModel
 
+    let contentMarginsForScrollContent: Double
     @ViewBuilder var cardView: (Model) -> CardContent
     @ViewBuilder var emptyCardView: () -> EmptyCardContent
 
@@ -30,7 +31,7 @@ struct CardCalendarView<Model: CalendarModel, CardContent: View, EmptyCardConten
             }
             .scrollTargetLayout()
         }
-        .contentMargins(50.0, for: .scrollContent)
+        .contentMargins(contentMarginsForScrollContent, for: .scrollContent)
         .scrollTargetBehavior(.viewAligned)
         .scrollIndicators(.hidden)
         .scrollPosition(id: $viewModel.selectedDay)

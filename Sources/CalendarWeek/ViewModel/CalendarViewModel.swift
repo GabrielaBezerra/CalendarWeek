@@ -17,7 +17,7 @@ public class CalendarViewModel<Model: CalendarModel> {
         Date.now.advanced(by: 60*60*24 * 7)
     ].map(Week.init(of:))
 
-    var models: [Model]
+    public var models: [Model]
 
     var selectedWeek = Week(of: .now)
 

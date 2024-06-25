@@ -36,21 +36,25 @@ struct WeekCalendarView<Model: CalendarModel, HeaderContent: View, DayContent: V
 
         VStack {
 
-            // TODO: Mudar View do Mês e Ano
             if let day = viewModel.selectedDay {
                 headerView(day)
             }
 
             TabView(selection: $viewModel.selectedWeek) {
                 ForEach(viewModel.weeks) { week in
-                    HStack(spacing: daySpacing) {
+                    HStack(spacing: daySpacing.isFinite ? daySpacing : 0) {
                         ForEach(week.days) { day in
-
-                            // TODO: Mudar View do Dia
-                            dayView(day)
-                                .onTapGesture {
-                                    viewModel.selectedDay = day
+                            Group {
+                                if daySpacing.isInfinite {
+                                    dayView(day)
+                                        .frame(maxWidth: .infinity)
+                                } else {
+                                    dayView(day)
                                 }
+                            }
+                            .onTapGesture {
+                                viewModel.selectedDay = day
+                            }
                         }
                         .animation(.snappy, value: viewModel.selectedWeek)
                     }

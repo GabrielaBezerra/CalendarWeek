@@ -11,9 +11,10 @@ import SwiftUI
 
 public struct CalendarView<Model: CalendarModel, HeaderContent: View, DayContent: View, WeekBackgroundContent: View, ModelContent: View, EmptyStateModelContent: View>: View {
 
-    @State var viewModel: CalendarViewModel<Model>
+    @Environment(CalendarViewModel<Model>.self) var viewModel: CalendarViewModel<Model>
 
     public let daySpacing: Double
+    public let contentMargins: Double
     @ViewBuilder public var headerView: (Day) -> HeaderContent
     @ViewBuilder public var dayView: (Day) -> DayContent
     @ViewBuilder public var weekBackground: () -> WeekBackgroundContent
@@ -30,21 +31,21 @@ public struct CalendarView<Model: CalendarModel, HeaderContent: View, DayContent
     ///   - cardView: View that shows model information for the selected day
     ///   - emptyCardView: View with empty state if there is no model for the selected day
     public init(
-        models: [Model],
-        daySpacing: Double,
+        contentMargins: Double,
+        weekDaySpacing: Double,
         headerView: @escaping (Day) -> HeaderContent,
-        dayView: @escaping (Day) -> DayContent,
+        weekDayView: @escaping (Day) -> DayContent,
         weekBackground: @escaping () -> WeekBackgroundContent,
         dayContentView: @escaping (Model) -> ModelContent,
         dayEmptyStateView: @escaping () -> EmptyStateModelContent
     ) {
-        self.viewModel = CalendarViewModel(models: models)
-        self.daySpacing = daySpacing
+        self.daySpacing = weekDaySpacing
         self.headerView = headerView
-        self.dayView = dayView
+        self.dayView = weekDayView
         self.weekBackground = weekBackground
         self.dayContentView = dayContentView
         self.dayEmptyStateView = dayEmptyStateView
+        self.contentMargins = contentMargins
     }
 
     public var body: some View {
@@ -56,6 +57,7 @@ public struct CalendarView<Model: CalendarModel, HeaderContent: View, DayContent
                 weekBackground: weekBackground
             )
             CardCalendarView<Model, ModelContent, EmptyStateModelContent>(
+                contentMarginsForScrollContent: contentMargins,
                 cardView: dayContentView,
                 emptyCardView: dayEmptyStateView
             )
